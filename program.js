@@ -1,17 +1,16 @@
 #!/usr/bin/env node
-var WebSocketClient = require('websocket').client;
-
-var client = new WebSocketClient();
+const socket = new WebSocket('wss://shorthaired-rainbow-tartan.glitch.me', 'echo-protocol');
+var $board = $('#Board')
+var board = null;
 var config = {
     position: 'start',
     draggable: true,
     dropOffBoard: 'snapback',
     onDrop: onDrop,
-    onSnapEnd: onSnapEnd,
   }
-var board = ChessBoard('Board', config);
+board = ChessBoard('Board', config);
 
-var game = new chess();
+var game = new Chess();
 var color;
 var isInGame = false;
 function onDrop(source, target, piece, newPos, oldPos, orientation) {
@@ -27,50 +26,47 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
     // If the move is illegal, snap the piece back to its original square
     if (result === null)  return 'snapback';
     if (color === game.turn) return 'snapback';
-    move(result);
+    if (!isInGame ) return 'snapback';
+    move(move);
+  
 }
-client.on('connectFailed', function(error) {
-    console.log('Connect Error: ' + error.toString());
-});
+socket.onopen = () => {
+  console.log('Connected to the server');
+  socket.send('Hello Server');
+};
 
-client.on('connect', function(connection) {
-    console.log('WebSocket Client Connected');
-    connection.on('error', function(error) {
-        console.log("Connection Error: " + error.toString());
-    });
-    connection.on('close', function() {
-        console.log('echo-protocol Connection Closed');
-    });
-    connection.on('message', function(message) {
-        if (message.type === 'utf8') {
-            json = json.parse(message.utf8);
-            if (json.type === move) {
-              game.move(json.move);
-              board.position(game.fen);
+socket.onmessage = event => {
+  console.log(`Message from server: ${event.data}`);
+  var json = JSON.parse(event.data);
+  if (json.type === "move") {
+              game.load(json.move);
+              board.position(json.move);
             } else if (json.type === 'gameStarted') {
               color = json.color;
               isInGame = true;
             }
-        }
-    });
-    
+};
+
+socket.onclose = () => {
+  console.log('Disconnected from the server');
+};
+
+socket.onerror = error => {
+  console.error(`WebSocket error: ${error}`);
+};
+
     function joinGame() {
-        if (connection.connected) {
+        
         var json = {
           "type":"joinGame"
         }
-        connection.sendUTF(json);
-    }
+        socket.send(JSON.stringify(json));
     }
     function move(move) {
-        if (connection.connected ) {
+        
             var json = {
                 "type":"move",
                 "move": move
             }
-            connection.sendUTF(json);
-        }
+            socket.send(JSON.stringify(json))
     }
-});
-
-client.connect('ws://localhost:8080/', 'echo-protocol');
