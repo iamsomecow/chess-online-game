@@ -102,7 +102,7 @@ socket.onerror = error => {
         }
         socket.send(JSON.stringify(json));
     } else {
-        alert("in a game, can not start new game")
+        alert("in a game or already looking for a game, can not start a new game")
     }
     }
     function move(move) {
