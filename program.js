@@ -2,6 +2,7 @@
 const socket = new WebSocket('wss://shorthaired-rainbow-tartan.glitch.me', 'echo-protocol');
 document.getElementById('status').innerHTML = 'connecting to server';
 var $board = $('#Board')
+var moveSound = document.getElementById('moveSound');
 var board = null;
 var config = {
     position: 'start',
@@ -37,6 +38,7 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
         return 'snapback';
     }  
     move(game.fen());
+    moveSound.play();
     if (game.game_over()) {
         isInGame = false;
         if (game.in_checkmate()) {
@@ -59,6 +61,7 @@ socket.onmessage = event => {
   if (json.type === "move") {
               game.load(json.move);
               board.position(json.move);
+              moveSound.play();
               if (game.game_over()) {
                 isInGame = false;
                 if (game.in_checkmate()) {
