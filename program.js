@@ -28,9 +28,9 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
     if (color === game.turn) return 'snapback';
     if (!isInGame ) return 'snapback';
     move(game.fen());
-    if (game.isGameOver()) {
+    if (game.game_over()) {
         isInGame = false;
-        if (game.isCheckmate()) {
+        if (game.in_checkmate()) {
             alert("Checkmate! you won")
         } else {
             alert("its a draw")
