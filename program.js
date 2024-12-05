@@ -37,7 +37,7 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
         alert("join a game to move");
         return 'snapback';
     }  
-    move(game.fen());
+    move(game.undo().san);
     moveSound.play();
     if (game.game_over()) {
         isInGame = false;
@@ -59,8 +59,8 @@ socket.onmessage = event => {
   console.log(`Message from server: ${event.data}`);
   var json = JSON.parse(event.data);
   if (json.type === "move") {
-              game.load(json.move);
-              board.position(json.move);
+              game.move(json.move);
+              board.position(game.fen());
               moveSound.play();
               if (game.game_over()) {
                 isInGame = false;
