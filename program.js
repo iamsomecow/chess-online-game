@@ -32,7 +32,6 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
 }
 socket.onopen = () => {
   console.log('Connected to the server');
-  socket.send('Hello Server');
 };
 
 socket.onmessage = event => {
