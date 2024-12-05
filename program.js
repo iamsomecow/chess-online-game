@@ -30,6 +30,11 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
     move(game.fen());
     if (game.isGameOver()) {
         isInGame = false;
+        if (game.isCheckmate()) {
+            alert("Checkmate! you won")
+        } else {
+            alert("its a draw")
+        }
     }
   
 }
@@ -43,12 +48,24 @@ socket.onmessage = event => {
   if (json.type === "move") {
               game.load(json.move);
               board.position(json.move);
+              if (game.isGameOver()) {
+                isInGame = false;
+                if (game.isCheckmate()) {
+                    alert("Checkmate! you lost")
+                } else {
+                    alert("its a draw")
+                }
+            }
+              
             } else if (json.type === 'gameStarted') {
                 
               color = json.color;
               isInGame = true;
               setBoard(color)
                 
+            } else if (json.type === 'resign') {
+                isInGame = false;
+                alert("oponent resigned! you won");
             }
 };
 
@@ -83,4 +100,12 @@ socket.onerror = error => {
         } else {
             board.orientation('black')
         }
+    }
+    function resign() {
+        var json = {
+            "type":"resign"
+        }
+        isInGame = false;
+        socket.send(JSON.stringify(json));
+        alert("you resigned");
     }
