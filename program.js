@@ -14,6 +14,7 @@ board = ChessBoard('board', config);
 var game = new Chess();
 var color;
 var isInGame = false;
+var isWaitingForGame = false;
 function onDrop(source, target, piece, newPos, oldPos, orientation) {
     var mOove = {
       from: source,
@@ -32,6 +33,7 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
     }  
     if (!isInGame ) {
         game.undo();
+        alert("join a game to move");
         return 'snapback';
     }  
     move(game.fen());
@@ -70,9 +72,11 @@ socket.onmessage = event => {
                 setBoard(json.color);
               color = json.color;
               isInGame = true;
+              isWaitingForGame = false;
 
               game.reset();
               board.position(game.fen());
+              alert("game started")
                 
             } else if (json.type === 'resign') {
                 isInGame = false;
@@ -91,7 +95,8 @@ socket.onerror = error => {
 };
 
     function joinGame() {
-        if (!isInGame) {
+        if (!isInGame && !isWaitingForGame) {
+            isWaitingForGame = true;
         var json = {
           "type":"joinGame"
         }
