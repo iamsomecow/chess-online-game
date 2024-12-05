@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const socket = new WebSocket('wss://shorthaired-rainbow-tartan.glitch.me', 'echo-protocol');
+document.getElementById('status').innerHTML('connecting to server')
 var $board = $('#Board')
 var board = null;
 var config = {
@@ -46,6 +47,8 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
 }
 socket.onopen = () => {
   console.log('Connected to the server');
+  document.getElementById('status').innerHTML('Connected to the server');
+  alert('Connected to the server');
 };
 
 socket.onmessage = event => {
@@ -91,15 +94,20 @@ socket.onerror = error => {
           "type":"joinGame"
         }
         socket.send(JSON.stringify(json));
+    } else {
+        alert("in a game, can not start new game")
     }
     }
     function move(move) {
-        
+        if (isInGame) {
             var json = {
                 "type":"move",
                 "move": move
             }
             socket.send(JSON.stringify(json))
+        } else {
+            alert("join a game to move") 
+        }
     }
     function setBoard(newColor) {
         if (newColor === "w")
