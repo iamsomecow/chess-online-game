@@ -77,7 +77,7 @@ socket.onerror = error => {
             socket.send(JSON.stringify(json))
     }
     function setBoard(color) {
-        if (color = w)
+        if (color = "w")
         {
             board.orientation('white')
         } else {
