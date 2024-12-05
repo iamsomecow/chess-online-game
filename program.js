@@ -25,8 +25,14 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
   
     // If the move is illegal, snap the piece back to its original square
     if (result === null)  return 'snapback';
-    if (color === game.turn) return 'snapback';
-    if (!isInGame ) return 'snapback';
+    if (color === game.turn) {
+        game.undo();
+        return 'snapback';
+    }  
+    if (!isInGame ) {
+        game.undo();
+        return 'snapback';
+    }  
     move(game.fen());
     if (game.game_over()) {
         isInGame = false;
