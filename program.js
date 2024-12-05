@@ -58,10 +58,10 @@ socket.onmessage = event => {
             }
               
             } else if (json.type === 'gameStarted') {
-                
+                setBoard(json.color);
               color = json.color;
               isInGame = true;
-              setBoard(color);
+
               game.reset();
               board.position(game.fen());
                 
@@ -95,8 +95,8 @@ socket.onerror = error => {
             }
             socket.send(JSON.stringify(json))
     }
-    function setBoard(color) {
-        if (color = "w")
+    function setBoard(newColor) {
+        if (newColor = "w")
         {
             board.orientation('white')
         } else {
