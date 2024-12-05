@@ -28,6 +28,9 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
     if (color === game.turn) return 'snapback';
     if (!isInGame ) return 'snapback';
     move(game.fen());
+    if (game.isGameOver()) {
+        isInGame = false;
+    }
   
 }
 socket.onopen = () => {
@@ -41,8 +44,11 @@ socket.onmessage = event => {
               game.load(json.move);
               board.position(json.move);
             } else if (json.type === 'gameStarted') {
+                
               color = json.color;
               isInGame = true;
+              setBoard(color)
+                
             }
 };
 
@@ -55,11 +61,12 @@ socket.onerror = error => {
 };
 
     function joinGame() {
-        
+        if (!isInGame) {
         var json = {
           "type":"joinGame"
         }
         socket.send(JSON.stringify(json));
+    }
     }
     function move(move) {
         
@@ -68,4 +75,12 @@ socket.onerror = error => {
                 "move": move
             }
             socket.send(JSON.stringify(json))
+    }
+    function setBoard(color) {
+        if (color = w)
+        {
+            board.orientation('white')
+        } else {
+            board.orientation('black')
+        }
     }
