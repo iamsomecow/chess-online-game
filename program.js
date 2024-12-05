@@ -29,7 +29,7 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
     // If the move is illegal, snap the piece back to its original square
     if (result === null)  return 'snapback';
     if (color === game.turn()) {
-        game.undo();
+        
         return 'snapback';
     }  
     if (!isInGame ) {
