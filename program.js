@@ -61,7 +61,8 @@ socket.onmessage = event => {
                 
               color = json.color;
               isInGame = true;
-              setBoard(color)
+              setBoard(color);
+              board.reset();
                 
             } else if (json.type === 'resign') {
                 isInGame = false;
