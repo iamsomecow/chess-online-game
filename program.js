@@ -8,7 +8,7 @@ var config = {
     dropOffBoard: 'snapback',
     onDrop: onDrop,
   }
-board = ChessBoard('Board', config);
+board = ChessBoard('board', config);
 
 var game = new Chess();
 var color;
