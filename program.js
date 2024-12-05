@@ -83,7 +83,12 @@ socket.onmessage = event => {
                 
             } else if (json.type === 'resign') {
                 isInGame = false;
+            
                 alert("oponent resigned! you won") ;
+            } else if (json.type === 'disconnect') {
+                isInGame = false;
+                
+                alert("oponent disconnected! you won")
             }
 };
 
