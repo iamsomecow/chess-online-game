@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const socket = new WebSocket('wss://shorthaired-rainbow-tartan.glitch.me', 'echo-protocol');
-document.getElementById('status').innerHTML('connecting to server')
+document.getElementById('status').innerHTML = 'connecting to server';
 var $board = $('#Board')
 var board = null;
 var config = {
@@ -47,7 +47,7 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
 }
 socket.onopen = () => {
   console.log('Connected to the server');
-  document.getElementById('status').innerHTML('Connected to the server');
+  document.getElementById('status').innerHTML = 'Connected to the server';
   alert('Connected to the server');
 };
 
@@ -82,6 +82,8 @@ socket.onmessage = event => {
 
 socket.onclose = () => {
   console.log('Disconnected from the server');
+  document.getElementById('status').innerHTML = 'disconected from the server refresh the page';
+  alert('disconected from the server refresh the page');
 };
 
 socket.onerror = error => {
