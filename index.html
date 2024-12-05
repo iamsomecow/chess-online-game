@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+        h1 {text-align: center;}
+        p {text-align: center;}
+        #buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        button {width: 150px;}
+    </style>
     <script src="https://zeyu2001.github.io/chess-ai/js/chess.js"></script>
     <title>chess-game-online</title>
     <script
@@ -15,7 +25,7 @@
 </head>
 <body>
     <button onclick="joinGame()">join game</button>
-    <div id="board"></div>
+    <div id="board"style="width: 300px;margin: 0 auto;"></div>
     <script src="program.js"></script>
 </body>
 </html>
