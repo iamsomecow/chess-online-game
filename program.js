@@ -48,9 +48,9 @@ socket.onmessage = event => {
   if (json.type === "move") {
               game.load(json.move);
               board.position(json.move);
-              if (game.isGameOver()) {
+              if (game.game_over()) {
                 isInGame = false;
-                if (game.isCheckmate()) {
+                if (game.in_checkmate()) {
                     alert("Checkmate! you lost")
                 } else {
                     alert("its a draw")
@@ -65,7 +65,7 @@ socket.onmessage = event => {
                 
             } else if (json.type === 'resign') {
                 isInGame = false;
-                alert("oponent resigned! you won");
+                alert("oponent resigned! you won") ;
             }
 };
 
