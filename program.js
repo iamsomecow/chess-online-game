@@ -27,7 +27,7 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
     if (result === null)  return 'snapback';
     if (color === game.turn) return 'snapback';
     if (!isInGame ) return 'snapback';
-    move(move);
+    move(game.fen);
   
 }
 socket.onopen = () => {
