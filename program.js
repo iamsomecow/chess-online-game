@@ -36,9 +36,9 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
         alert("join a game to move");
         return 'snapback';
     }  
-    var move = game.undo().san;
-    move(move);
-    game.move(move);
+    var move2 = game.undo().san;
+    move(move2);
+    game.move(move2);
     moveSound.play();
     if (game.game_over()) {
         isInGame = false;
