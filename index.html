@@ -18,6 +18,8 @@
     </style>
     <audio id="moveSound" src="move.wav"></audio>
     <script src="https://zeyu2001.github.io/chess-ai/js/chess.js"></script>
+    <script src="//raw.githubusercontent.com/nicolasbrugneaux/elo-js/refs/heads/master/index.js"></script>
+    
     <title>chess-game-online</title>
     <script
             src="https://code.jquery.com/jquery-3.5.1.js"
@@ -35,7 +37,9 @@
     <p id="status"></p>
     <button onclick="joinGame()" class="buttons">join game</button>
     <button onclick="resign()" class="buttons">resign</button>
+    <p id="opElo"></p>
     <div id="board"style="width: 300px;margin: 0 auto;"></div>
+    <p id="playerElo"></p>
     <script src="program.js"></script>
 </body>
 </html>

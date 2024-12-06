@@ -1,4 +1,10 @@
 #!/usr/bin/env node
+var playerElo = 1500
+var opElo;
+if (localStorage.getItem("elo" !== null)) {
+    playerElo = parseInt(localStorage.getItem("elo"))
+}
+document.getElementById('playerElo').innerHTML = "your elo: " + playerElo.toString();
 const socket = new WebSocket('wss://shorthaired-rainbow-tartan.glitch.me', 'echo-protocol');
 document.getElementById('status').innerHTML = 'connecting to server';
 var $board = $('#Board')
@@ -77,7 +83,8 @@ socket.onmessage = event => {
               color = json.color;
               isInGame = true;
               isWaitingForGame = false;
-
+              opElo = parseInt(json.elo);
+              document.getElementById('opElo').innerHTML = `oponents elo: ${opElo.toString()}`;
               game.reset();
               board.position(game.fen());
               alert("game started")
@@ -107,7 +114,8 @@ socket.onerror = error => {
         if (!isInGame && !isWaitingForGame) {
             isWaitingForGame = true;
         var json = {
-          "type":"joinGame"
+          "type":"joinGame",
+          "elo":playerElo.toString()
         }
         socket.send(JSON.stringify(json));
     } else {
@@ -140,4 +148,14 @@ socket.onerror = error => {
         isInGame = false;
         socket.send(JSON.stringify(json));
         alert("you resigned");
+    }
+    function setElo(game){
+        if (game.in_draw()) {
+            var newElo = elo.ifDraws(PlayerElo, opElo)
+        } else if(game.turn === color) {
+            var newElo = elo.ifWins(playerElo, opElo)
+        } else {
+            var newElo = elo.ifLoss(playerElo, opElo)
+        }
+        playerElo = newElo;
     }
