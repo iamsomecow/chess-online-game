@@ -158,4 +158,6 @@ socket.onerror = error => {
             var newElo = elo.ifLoss(playerElo, opElo)
         }
         playerElo = newElo;
+        localStorage.setItem("elo",playerElo.toString())
+
     }
