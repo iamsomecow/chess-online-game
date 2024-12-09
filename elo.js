@@ -142,5 +142,3 @@ class Elo
         return rating;
     }
 }
-
-export default Elo;
