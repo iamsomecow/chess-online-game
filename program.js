@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 var playerElo = 1500
 var opElo;
+if (elo === undefined) {
+    console.log("elo is undefined")
+}
 if (localStorage.getItem("elo" !== null)) {
     playerElo = parseInt(localStorage.getItem("elo"))
 }
