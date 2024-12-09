@@ -5,7 +5,7 @@ var elo = new Elo();
 if (elo === undefined) {
     console.log("elo is undefined")
 }
-if (localStorage.getItem("elo" !== null)) {
+if (localStorage.getItem("elo") !== null) {
     playerElo = parseInt(localStorage.getItem("elo"))
 }
 document.getElementById('playerElo').innerHTML = "your elo: " + playerElo.toString();
