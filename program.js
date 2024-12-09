@@ -163,7 +163,7 @@ socket.onerror = error => {
     }
     function setElo(game){
         if (game.in_draw()) {
-            var newElo = elo.ifDraws(PlayerElo, opElo)
+            var newElo = elo.ifTies(PlayerElo, opElo)
         } else if(game.turn === color) {
             var newElo = elo.ifWins(playerElo, opElo)
         } else {
