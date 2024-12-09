@@ -50,8 +50,10 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
         isInGame = false;
         if (game.in_checkmate()) {
             alert("Checkmate! you won")
+            setElo(game)
         } else {
             alert("its a draw")
+            setElo(game)
         }
     }
   
@@ -73,8 +75,10 @@ socket.onmessage = event => {
                 isInGame = false;
                 if (game.in_checkmate()) {
                     alert("Checkmate! you lost")
+                    setElo(game)
                 } else {
                     alert("its a draw")
+                    setElo(game)
                 }
             }
               
@@ -89,12 +93,15 @@ socket.onmessage = event => {
               board.position(game.fen());
               alert("game started")
                 
-            } else if (json.type === 'resign') {
+            } else if (json.type === 'resign' && isInGame) {
                 isInGame = false;
-            
+                var newElo = elo.ifWins(playerElo, opElo)
+                playerElo = newElo;
+                localStorage.setItem("elo",playerElo.toString())
                 alert("oponent resigned! you won") ;
-            } else if (json.type === 'disconnect') {
+            } else if (json.type === 'disconnect' && isInGame) {
                 isInGame = false;
+                
                 
                 alert("oponent disconnected! you won")
             }
@@ -147,6 +154,7 @@ socket.onerror = error => {
         }
         isInGame = false;
         socket.send(JSON.stringify(json));
+        setElo(game);
         alert("you resigned");
     }
     function setElo(game){
@@ -161,3 +169,10 @@ socket.onerror = error => {
         localStorage.setItem("elo",playerElo.toString())
 
     }
+    window.onbeforeunload = function() { 
+        if(isInGame){
+            var newElo = elo.ifLoss(playerElo, opElo)
+            playerElo = newElo;
+            localStorage.setItem("elo",playerElo.toString())
+        }
+    };
