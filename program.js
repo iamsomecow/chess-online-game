@@ -167,7 +167,7 @@ socket.onerror = error => {
         } else if(game.turn === color) {
             var newElo = elo.ifWins(playerElo, opElo)
         } else {
-            var newElo = elo.ifLoss(playerElo, opElo)
+            var newElo = elo.ifLoses(playerElo, opElo)
         }
         playerElo = newElo;
         localStorage.setItem("elo",playerElo.toString())
