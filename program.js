@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 var playerElo = 1500
 var opElo;
+var elo = new Elo();
 if (elo === undefined) {
     console.log("elo is undefined")
 }
