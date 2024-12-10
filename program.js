@@ -108,6 +108,9 @@ socket.onmessage = event => {
                 
                 
                 alert("oponent disconnected! you won")
+            } else if (json.type === 'playersOnline') {
+                document.getElementById('playersOnline').innerHTML = `players online: ${json.data}`;
+
             }
 };
 
